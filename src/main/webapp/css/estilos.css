@@ -1,0 +1,167 @@
+/* ==============================
+   PALETA DE COLORES NAVIDEÑA
+============================== */
+:root {
+    --navidad-rojo: #D42426;
+    --navidad-verde: #165B33;
+    --navidad-dorado: #F8B229;
+    --navidad-nieve: #F8F9FA;
+    --navidad-texto: #2C3E50;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: var(--navidad-nieve);
+    background-image: radial-gradient(circle, #e6e9f0 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--navidad-texto);
+    margin: 0;
+    overflow-x: hidden; /* Evita scroll horizontal en móviles */
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(135deg, var(--navidad-rojo), var(--navidad-verde));
+    color: white;
+    padding: 20px 10px; /* Padding ajustado */
+    text-align: center;
+    border-bottom: 5px solid var(--navidad-dorado);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+header h1 {
+    font-weight: 800;
+    text-shadow: 2px 2px 0px #000;
+    letter-spacing: 1px;
+    font-size: 2rem; /* Tamaño base */
+}
+
+/* NAVBAR */
+.navbar {
+    background-color: white !important;
+    border-bottom: 2px solid var(--navidad-verde);
+}
+
+.navbar-brand {
+    color: var(--navidad-rojo) !important;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* VIDEO CONTAINER (Responsive) */
+.video-frame {
+    position: relative;
+    width: 100%; /* Ocupa el ancho disponible */
+    max-width: 800px;
+    margin: 20px auto;
+    border: 6px solid var(--navidad-rojo); /* Borde un poco más fino */
+    border-radius: 15px;
+    background-color: #000;
+    box-shadow: 
+        0 0 0 3px var(--navidad-dorado),
+        0 10px 20px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-title {
+    text-align: center;
+    color: var(--navidad-verde);
+    font-weight: bold;
+    margin-top: 30px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    font-size: 1.5rem;
+    padding: 0 10px;
+}
+
+/* TARJETAS */
+.welcome-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    background: white;
+    margin: 0 10px; /* Margen lateral en móviles */
+}
+
+.card-header-custom {
+    background-color: var(--navidad-verde);
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-bottom: 3px solid var(--navidad-dorado);
+}
+
+/* BOTONES FESTIVOS */
+.btn-navidad-rojo, .btn-navidad-verde {
+    color: white;
+    border: none;
+    font-weight: bold;
+    transition: transform 0.2s;
+    margin-bottom: 5px; /* Separación en móviles */
+}
+
+.btn-navidad-rojo { background-color: var(--navidad-rojo); }
+.btn-navidad-verde { background-color: var(--navidad-verde); }
+
+.btn-navidad-rojo:hover, .btn-navidad-verde:hover {
+    filter: brightness(1.1);
+    color: white;
+}
+
+/* FOOTER */
+footer {
+    background-color: #222;
+    color: var(--navidad-dorado);
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    border-top: 4px solid var(--navidad-rojo);
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   OPTIMIZACIÓN PARA CELULARES (Media Query)
+   ========================================= */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem; /* Título más pequeño */
+    }
+    
+    header p {
+        font-size: 0.9rem;
+    }
+
+    .video-title {
+        font-size: 1.2rem;
+        margin-top: 20px;
+    }
+
+    .video-frame {
+        border-width: 4px; /* Borde más fino en móvil */
+        border-radius: 10px;
+    }
+
+    /* Ajustar botones del menú para que no se peguen */
+    .navbar-nav .btn {
+        width: 100%;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+    
+    .navbar-text {
+        display: block;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .welcome-card {
+        margin-top: 20px;
+    }
+}

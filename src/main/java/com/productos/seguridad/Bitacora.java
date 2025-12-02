@@ -5,79 +5,36 @@ import java.sql.*;
 
 public class Bitacora {
 
-    /**
-     * Guarda un registro en la bitácora.
-     */
     public void registrar(int idUsuario, String accion, String detalle) {
-
-        String sql = "INSERT INTO tb_bitacora(id_usuario, accion, detalle, fecha) "
-                   + "VALUES(" + idUsuario + ", '" + accion + "', '" + detalle + "', NOW())";
-
+        String sql = "INSERT INTO tb_bitacora(id_usuario, accion, detalle, fecha) VALUES(" + idUsuario + ", '" + accion + "', '" + detalle + "', NOW())";
         Conexion con = new Conexion();
-
         try {
             con.Ejecutar(sql);
-
-            if (con.getConexion() != null) {
-                con.getConexion().close();
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error Bitacora.registrar: " + e.getMessage());
-        }
+            if(con.getConexion() != null) con.getConexion().close();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
-    /**
-     * Retorna una tabla HTML con el contenido de la bitácora.
-     */
     public String reporteBitacora() {
-
-        String html = "<table class='table table-striped table-hover'>"
-                + "<thead class='table-dark'>"
-                + "<tr>"
-                + "<th>ID</th>"
-                + "<th>Usuario</th>"
-                + "<th>Acción</th>"
-                + "<th>Detalle</th>"
-                + "<th>Fecha</th>"
-                + "</tr></thead><tbody>";
-
+        String sql = "SELECT u.nombre_us, b.accion, b.detalle, b.fecha FROM tb_bitacora b INNER JOIN tb_usuario u ON b.id_usuario = u.id_us ORDER BY b.fecha DESC";
         Conexion con = new Conexion();
-        Connection cn = null;
-        Statement st = null;
-        ResultSet rs = null;
-
+        StringBuilder html = new StringBuilder();
+        
+        html.append("<div class='table-responsive'><table class='table table-hover align-middle' style='background: rgba(255,255,255,0.9); border-radius: 10px;'>");
+        html.append("<thead class='table-danger'><tr><th>Usuario</th><th>Acción</th><th>Detalle</th><th>Fecha</th></tr></thead><tbody>");
+        
         try {
-
-            cn = con.getConexion();
-            st = cn.createStatement();
-
-            // Columnas reales de la tabla
-            rs = st.executeQuery(
-                    "SELECT id_bit, id_usuario, accion, detalle, fecha " +
-                    "FROM tb_bitacora ORDER BY fecha DESC"
-            );
-
+            ResultSet rs = con.Consulta(sql);
             while (rs.next()) {
-                html += "<tr>"
-                        + "<td>" + rs.getInt("id_bit") + "</td>"
-                        + "<td>" + rs.getInt("id_usuario") + "</td>"
-                        + "<td>" + rs.getString("accion") + "</td>"
-                        + "<td>" + rs.getString("detalle") + "</td>"
-                        + "<td>" + rs.getTimestamp("fecha") + "</td>"
-                        + "</tr>";
+                html.append("<tr>");
+                html.append("<td><b>").append(rs.getString("nombre_us")).append("</b></td>");
+                html.append("<td>").append(rs.getString("accion")).append("</td>");
+                html.append("<td>").append(rs.getString("detalle")).append("</td>");
+                html.append("<td>").append(rs.getTimestamp("fecha")).append("</td>");
+                html.append("</tr>");
             }
-
-        } catch (Exception e) {
-            html = "Error al consultar bitácora: " + e.getMessage();
-
-        } finally {
-            try { if (rs != null) rs.close(); } catch (Exception e) {}
-            try { if (st != null) st.close(); } catch (Exception e) {}
-            try { if (cn != null) cn.close(); } catch (Exception e) {}
-        }
-
-        html += "</tbody></table>";
-        return html;
+            if(con.getConexion() != null) con.getConexion().close();
+        } catch (Exception e) { html.append("<tr><td>Error: ").append(e.getMessage()).append("</td></tr>"); }
+        html.append("</tbody></table></div>");
+        return html.toString();
     }
 }
